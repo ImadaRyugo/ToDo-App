@@ -14,10 +14,32 @@
   margin-left: 10px;
 }
 
+.input{
+  margin-bottom: 20px;
+}
+
 .list{
   margin-top: 15px;
 }
 
 .textList{
   margin-bottom: 5px;
+  margin-left: 25px;
+  width: 100%;
+}
+
+.list-box{
+  position: relative;
+}
+
+.delete{
+  margin-left: 15px;
+}
+
+.list-item-check{
+  position: absolute;
+}
+
+.done{
+  text-decoration: line-through;
 }

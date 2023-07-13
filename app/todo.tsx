@@ -8,12 +8,22 @@ function ToDoInput({list, setList}: any) {
   function handleAdd() {
     const val = inputValue;
     const newList = list.slice();
-    newList.push(val);
+    const id = newList.length;
+    const newTodo = {
+      todo: val, 
+      id,
+      done: false,
+    };
+
+    if (!inputValue.match(/\S/g)) {
+      return;
+    }
+
+    newList.push(newTodo);
     setList(newList);
     setInputValue('');
-    const id = newList.length - 1;
-  
-    addTodoServer(val,id)
+
+    addTodoServer(newTodo)
       .then((res)=>{
         console.log(res);
       })
@@ -35,7 +45,7 @@ function ToDoInput({list, setList}: any) {
   }
 
   return(
-    <div>
+    <div className="input">
       <input value={inputValue} onChange={(e) => handleInputChange(e)} onKeyDown={handleEnter}></input>
       <button className="btn" onClick={handleAdd}>Add</button>
     </div>
@@ -43,10 +53,25 @@ function ToDoInput({list, setList}: any) {
 }
 
 function ToDoList({list, setList}: any) {
+
+  const handleDone = (id: number) => {
+    setList((previousList: any[]) => previousList.map(previousTodo =>
+      previousTodo.id === id ? {...previousTodo, done: !previousTodo.done} : previousTodo
+      ))
+  }
+
   function deleteTodo(index: number) {
     const del = list.slice();
     del.splice(index,1);
     setList(del);
+
+    deleteTodoServer(index)
+      .then((res)=>{
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error)
+      });
   }
 
   if(!list || list.length == 0){
@@ -54,17 +79,22 @@ function ToDoList({list, setList}: any) {
   }
   
   return(
-    <div className="list">
-      {list.map((text: string, index: number) => {
+    <>
+      {list.map(({todo, id, done}: any) => {
         return (
-          <div key={`${text}${index}`} className="textList">{text}<button onClick={() => deleteTodo(index)}>Delete</button></div>
+          <div className={done ? 'done' : ''}>
+          <div className="list-box">
+            <input className="list-item-check" type="checkbox" onClick={() => handleDone(id) } defaultChecked={done}></input>
+            <div key={`${todo}${id}`} className="textList">{todo}<button className="delete" onClick={() => deleteTodo(id)}>Delete</button></div>
+          </div>
+          </div>
         );
       } )}
-    </div>
+    </>
   );
 } 
 
-async function addTodoServer(todo : string, id: number){
+async function addTodoServer({todo, id}: any){
   const options = {
     method: "POST",
     headers: {
@@ -94,7 +124,7 @@ async function deleteTodoServer(index : number){
 }
 
 export default function ToDo() {
-  const [list,setList] = useState<string[]>([]);
+  const [list,setList] = useState<Object[]>([]);
 
   return (
     <div className="all">

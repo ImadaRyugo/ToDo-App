@@ -94,15 +94,14 @@ function ToDoList({list, setList}: any) {
   );
 } 
 
-async function addTodoServer({todo, id}: any){
+async function addTodoServer({todo}: any){
   const options = {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      todo,
-      id
+      todo
     }),
   };
   const response = await fetch("http://localhost:7984/add",　options);

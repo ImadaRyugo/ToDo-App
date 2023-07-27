@@ -25,7 +25,7 @@ connection.connect((err) => {
 
 app.post('/add',(request, response) => {
   // console.log(request);
-  const sql = `INSERT INTO todos (id,todo_text) VALUES ('${request.body.id}','${request.body.todo}')`
+  const sql = `INSERT INTO todos (todo_text) VALUES ('${request.body.todo}')`
 
 	connection.query(sql,function(error,result){
 		console.log(result);
@@ -38,7 +38,7 @@ app.post('/add',(request, response) => {
 	});
 });
 
-app.post('/delete',() => {
+app.post('/delete',(request, response) => {
   const sql = `DELETE FROM todos WHERE id = '${request.body.index}'`;
 	connection.query(sql,function(error,result){
 		console.log(result)

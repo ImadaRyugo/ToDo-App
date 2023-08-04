@@ -82,7 +82,7 @@ function ToDoList({list, setList}: any) {
     <>
       {list.map(({todo, id, done}: any) => {
         return (
-          <div className={done ? 'done' : ''}>
+          <div key={id} className={done ? 'done' : ''}>
           <div className="list-box">
             <input className="list-item-check" type="checkbox" onClick={() => handleDone(id) } defaultChecked={done}></input>
             <div key={`${todo}${id}`} className="textList">{todo}<button className="delete" onClick={() => deleteTodo(id)}>Delete</button></div>
@@ -108,14 +108,14 @@ async function addTodoServer({todo}: any){
   return response;
 }
 
-async function deleteTodoServer(index : number){
+async function deleteTodoServer(id : number){
   const options = {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      index
+      id
     }),
   };
   const response = await fetch("http://localhost:7984/delete",　options);

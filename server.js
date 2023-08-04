@@ -1,6 +1,6 @@
-const express = require("express");
-const mysql = require('mysql2');
-const cors = require("cors");
+import express from 'express';
+import mysql from 'mysql2';
+import cors from "cors";
 
 const app = express();
 const port = 7984;
@@ -25,13 +25,12 @@ connection.connect((err) => {
 
 app.post('/add',(request, response) => {
   // console.log(request);
-  const sql = `INSERT INTO todos (todo_text) VALUES ('${request.body.todo}')`
-
-	connection.query(sql,function(error,result){
+  const sql = `INSERT INTO todos (todo_text) VALUES (?)`
+	connection.query(sql,[request.body.todo],function(error,result){
 		console.log(result);
     if(error) {
       console.log(error);
-      response.send('エラーが出ました。');
+      response.status(500).send('エラーが出ました。');
     } else {
       response.send('登録が完了しました');
     }
@@ -39,11 +38,15 @@ app.post('/add',(request, response) => {
 });
 
 app.post('/delete',(request, response) => {
-  const sql = `DELETE FROM todos WHERE id = '${request.body.index}'`;
-	connection.query(sql,function(error,result){
-		console.log(result)
-		response.redirect('/');
-	})
+  const sql = `DELETE FROM todos WHERE id = '${request.body.id}'`;
+	connection.query(sql,[request.body.id],function(error,result){
+		if (error) {
+      console.error(error);
+      response.status(500).send('エラーが出ました。');
+    } else {
+      response.send('削除が完了しました');
+    }
+  });
 });
 
 app.get('/',(request, response) => {

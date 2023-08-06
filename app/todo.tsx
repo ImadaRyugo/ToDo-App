@@ -8,7 +8,7 @@ function ToDoInput({list, setList}: any) {
   function handleAdd() {
     const val = inputValue;
     const newList = list.slice();
-    const id = newList.length;
+    const id = `${Date.now()}`;
     const newTodo = {
       todo: val, 
       id,
@@ -60,12 +60,12 @@ function ToDoList({list, setList}: any) {
       ))
   }
 
-  function deleteTodo(index: number) {
-    const del = list.slice();
-    del.splice(index,1);
+  function deleteTodo(id: string) {
+    let del = list.slice();
+    del = del.filter((list: { id: string; }) =>  list.id !== id)
     setList(del);
 
-    deleteTodoServer(index)
+    deleteTodoServer(id)
       .then((res)=>{
         console.log(res);
       })
@@ -94,13 +94,14 @@ function ToDoList({list, setList}: any) {
   );
 } 
 
-async function addTodoServer({todo}: any){
+async function addTodoServer({id,todo}: any){
   const options = {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+      id,
       todo
     }),
   };
@@ -108,7 +109,7 @@ async function addTodoServer({todo}: any){
   return response;
 }
 
-async function deleteTodoServer(id : number){
+async function deleteTodoServer(id : string){
   const options = {
     method: "POST",
     headers: {

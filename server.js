@@ -1,6 +1,6 @@
-import express from 'express';
-import mysql from 'mysql2';
-import cors from "cors";
+const express = require("express");
+const mysql = require('mysql2');
+const cors = require("cors");
 
 const app = express();
 const port = 7984;
@@ -25,8 +25,8 @@ connection.connect((err) => {
 
 app.post('/add',(request, response) => {
   // console.log(request);
-  const sql = `INSERT INTO todos (todo_text) VALUES (?)`
-	connection.query(sql,[request.body.todo],function(error,result){
+  const sql = `INSERT INTO todos (id,todo_text) VALUES (${request.body.id},'${request.body.todo}')`;
+	connection.query(sql,function(error,result){
 		console.log(result);
     if(error) {
       console.log(error);

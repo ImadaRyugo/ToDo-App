@@ -1,34 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ToDoアプリ
 
-## Getting Started
+## 概要
+このToDo アプリは、日常のタスク管理をシンプルに行うためのアプリケーションです。ユーザーはタスクの追加、削除、タスクの完了済み表示を簡単に行うことができ、その日の予定やタスクを一目で確認することができます。
 
-First, run the development server:
+## 目的
+Web開発の基本的な技術に触れ、学ぶため。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## 機能
+- **タスクの追加**: 新しいタスクを簡単にリストに追加できます。
+- **タスクの削除**: 不要なタスクをリストから削除することができます。
+- **タスクの完了**: 完了したタスクを完了済みとしてマークすることができます。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 使用技術
+- **フロントエンド**:
+  - React.js
+  - Next.js
+  - TypeScript
+- **バックエンド**:
+  - Node.js
+  - Express
+  - TypeScript
+- **データベース**:
+  - MySQL
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## バージョン情報
+- **node**: 18.16.0
+- **npm**: 9.6.6
+- **MySQL**: 8.0.33

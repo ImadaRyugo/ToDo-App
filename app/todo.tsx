@@ -45,19 +45,30 @@ function ToDoInput({list, setList}: any) {
   }
 
   return(
-    <div className="input">
-      <input value={inputValue} onChange={(e) => handleInputChange(e)} onKeyDown={handleEnter}></input>
-      <button className="btn" onClick={handleAdd}>Add</button>
+    <div className="input-area">
+      <input className="input" value={inputValue} onChange={(e) => handleInputChange(e)} onKeyDown={handleEnter}></input>
+      <button className="btn" onClick={handleAdd}>追加</button>
     </div>
   );
 }
 
-function ToDoList({list, setList}: any) {
+function IncompleteToDo({list, setList, todo, setTodo}: any) {
 
-  const handleDone = (id: number) => {
+  const handleDone = (id: string) => {
+    
+    const newIncompleteTodos = list.filter((item: any) => item.id !== id);
+    const completedTodo = list.find((item: any) => item.id === id);
+
+    if (completedTodo) {
+      completedTodo.done = true;
+      const newCompleteTodos = [...todo, completedTodo];
+      setList(newIncompleteTodos);
+      setTodo(newCompleteTodos);
+    }
+    
     setList((previousList: any[]) => previousList.map(previousTodo =>
       previousTodo.id === id ? {...previousTodo, done: !previousTodo.done} : previousTodo
-      ))
+    ));
   }
 
   function deleteTodo(id: string) {
@@ -70,29 +81,67 @@ function ToDoList({list, setList}: any) {
         console.log(res);
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       });
   }
 
-  if(!list || list.length == 0){
-    return null;
-  }
+  // if(!list || list.length == 0){
+  //   return null;
+  // }
   
   return(
     <>
-      {list.map(({todo, id, done}: any) => {
-        return (
-          <div key={id} className={done ? 'done' : ''}>
-          <div className="list-box">
-            <input className="list-item-check" type="checkbox" onClick={() => handleDone(id) } defaultChecked={done}></input>
-            <div key={`${todo}${id}`} className="textList">{todo}<button className="delete" onClick={() => deleteTodo(id)}>Delete</button></div>
-          </div>
-          </div>
-        );
-      } )}
+      <div className="todo-area">
+        <p className="title">未完了のTODO</p>
+        {list.length > 0 ? list.map(({todo, id, done}: any) => {
+          return (
+            <div key={id} className={done ? 'done' : ''}>
+              <div className="list-box">
+                <input className="list-item-check" type="checkbox" onClick={() => handleDone(id) } defaultChecked={done}></input>
+                <div key={`${todo}${id}`} className="textList">{todo}<button className="btn" onClick={() => deleteTodo(id)}>削除</button></div>
+              </div>
+            </div>
+          );
+        }) : <p className="todo-status">未完了のTODOはありません。</p>}
+      </div>
     </>
   );
 } 
+
+function CompleteToDo({list, setList, todo, setTodo}: any) {
+  const onClickBack = (id: any) => {
+    const newCompleteTodos = todo.filter((item: any) => item.id !== id);
+    const incompleteTodo = todo.find((item: any) => item.id === id);
+
+    if (incompleteTodo) {
+      incompleteTodo.done = false;
+      const newIncompleteTodos = [...list, incompleteTodo];
+      setTodo(newCompleteTodos);
+      setList(newIncompleteTodos);
+    }
+  }
+
+  // if(!todo || todo.length == 0){
+  //   return null;
+  // }
+
+  return(
+    <>
+      <div className="todo-area">
+        <p className="title">完了のTODO</p>
+        <ul>
+        {todo.length > 0 ? todo.map(({todo, id}: any) => {
+          return (
+            <div key={id} className="list-box">
+              <li key={`${todo}${id}`} className="textList">{todo}<button className="btn" onClick={() => onClickBack(id)}>戻す</button></li>
+            </div>
+          );
+        }) : <p className="todo-status">完了のTODOはありません。</p>}
+        </ul>
+      </div>
+    </>
+  );
+}
 
 async function addTodoServer({id,todo}: any){
   const options = {
@@ -125,12 +174,16 @@ async function deleteTodoServer(id : string){
 
 export default function ToDo() {
   const [list,setList] = useState<Object[]>([]);
+  const [completeTodos, setCompleteTodos] = useState<Object[]>([]);
 
   return (
-    <div className="all">
-      <h1>To-Do App</h1>
-      <ToDoInput list={list} setList={setList}/>
-      <ToDoList list={list} setList={setList}/>
-    </div>
+    <>
+      <div className="all">
+        <h1>TODOリスト</h1>
+        <ToDoInput list={list} setList={setList}/>
+      </div>
+        <IncompleteToDo list={list} setList={setList} todo={completeTodos} setTodo={setCompleteTodos}/>
+        <CompleteToDo list={list} setList={setList} todo={completeTodos} setTodo={setCompleteTodos}/>
+    </>
   );
 }

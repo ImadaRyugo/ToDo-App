@@ -24,9 +24,21 @@ connection.connect((err) => {
 });
 
 app.post('/add',(request, response) => {
-  // console.log(request);
-  const sql = `INSERT INTO todos (id,todo_text) VALUES (${request.body.id},'${request.body.todo}')`;
-	connection.query(sql,function(error,result){
+  const sql = `INSERT INTO todos (id,todo_text) VALUES (?, ?)`;
+	connection.query(sql, [request.body.id, request.body.todo], function(error,result){
+		console.log(result);
+    if(error) {
+      console.log(error);
+      response.status(500).send('エラーが出ました。');
+    } else {
+      response.send('登録が完了しました');
+    }
+	});
+});
+
+app.post('/update',(request, response) => {
+  const sql = `UPDATE todos SET todo_text = ? WHERE id = ?`;
+	connection.query(sql,[request.body.todo, request.body.id], function(error,result){
 		console.log(result);
     if(error) {
       console.log(error);
@@ -38,8 +50,8 @@ app.post('/add',(request, response) => {
 });
 
 app.post('/delete',(request, response) => {
-  const sql = `DELETE FROM todos WHERE id = '${request.body.id}'`;
-	connection.query(sql,[request.body.id],function(error,result){
+  const sql = `DELETE FROM todos WHERE id = ?`;
+	connection.query(sql, [request.body.id], function(error,result){
 		if (error) {
       console.error(error);
       response.status(500).send('エラーが出ました。');

@@ -53,6 +53,8 @@ function ToDoInput({list, setList}: any) {
 }
 
 function IncompleteToDo({list, setList, todo, setTodo}: any) {
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingText, setEditingText] = useState<string>('');
 
   const handleDone = (id: string) => {
     
@@ -85,6 +87,33 @@ function IncompleteToDo({list, setList, todo, setTodo}: any) {
       });
   }
 
+  const startEditing = (id: string, text: string) => {
+    setEditingId(id);
+    setEditingText(text);
+  }
+
+  const saveEditing = (id: string) => {
+    const updatedList = list.map((item: any) => {
+      if (item.id === id) {
+        return {...item, todo: editingText}
+      }else{
+        return item;
+      }
+    });
+
+    setList(updatedList);
+    setEditingId(null);
+    setEditingText('');
+
+    updateTodoServer({id, todo: editingText})
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
   // if(!list || list.length == 0){
   //   return null;
   // }
@@ -97,8 +126,22 @@ function IncompleteToDo({list, setList, todo, setTodo}: any) {
           return (
             <div key={id} className={done ? 'done' : ''}>
               <div className="list-box">
-                <input className="list-item-check" type="checkbox" onClick={() => handleDone(id) } defaultChecked={done}></input>
-                <div key={`${todo}${id}`} className="textList">{todo}<button className="btn" onClick={() => deleteTodo(id)}>削除</button></div>
+                {editingId === id ? (
+                  <>
+                    <input className="edit" value={editingText} onChange={(e) => setEditingText(e.target.value)} />
+                    <button className="btn" onClick={() => saveEditing(id)}>保存</button>
+                  </>
+                ) : (
+                  <>
+                    <input className="list-item-check" type="checkbox" onClick={() => handleDone(id) } defaultChecked={done}></input>
+                    <div key={`${todo}${id}`} className="textList">
+                      {todo}
+                    <button className="btn" onClick={() => startEditing(id, todo)}>編集</button>
+                    <button className="btn" onClick={() => deleteTodo(id)}>削除</button>
+                    </div>
+                  </>
+                )}
+                
               </div>
             </div>
           );
@@ -155,6 +198,21 @@ async function addTodoServer({id,todo}: any){
     }),
   };
   const response = await fetch("http://localhost:7984/add",　options);
+  return response;
+}
+
+async function updateTodoServer({id, todo}: any) {
+  const options = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id,
+      todo
+    }),
+  };
+  const response = await fetch("http://localhost:7984/update", options);
   return response;
 }
 

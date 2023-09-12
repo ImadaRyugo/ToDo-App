@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -36,3 +37,35 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+=======
+# ToDoアプリ
+![image](https://github.com/ImadaRyugo/ToDo-App/assets/68148435/6affbf4a-3817-4f45-9274-02b750966f83)
+
+## 概要
+このToDo アプリは、日常のタスク管理をシンプルに行うためのアプリケーションです。ユーザーはタスクの追加、削除、タスクの完了済み表示を簡単に行うことができ、その日の予定やタスクを一目で確認することができます。
+
+## 目的
+Web開発の基本的な技術に触れ、学ぶため。
+
+## 機能
+- **タスクの追加**: 新しいタスクを簡単にリストに追加できます。
+- **タスクの削除**: 不要なタスクをリストから削除することができます。
+- **タスクの完了**: 完了したタスクを完了済みとしてマークすることができます。
+
+## 使用技術
+- **フロントエンド**:
+  - React.js
+  - Next.js
+  - TypeScript
+- **バックエンド**:
+  - Node.js
+  - Express
+  - TypeScript
+- **データベース**:
+  - MySQL
+
+## バージョン情報
+- **node**: 18.16.0
+- **npm**: 9.6.6
+- **MySQL**: 8.0.33
+>>>>>>> develop

@@ -1,0 +1,85 @@
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+.all {
+  text-align: center;
+}
+
+.btn {
+  margin-left: 10px;
+  border-radius: 3px;
+  border: none;
+}
+
+.btn:hover {
+  background-color: gray;
+  cursor: pointer;
+  border: none;
+}
+
+.input-area{
+  margin-bottom: 20px;
+}
+
+.input{
+  width: 230px;
+}
+
+ul{
+  padding: 0;
+}
+
+.list{
+  margin-top: 15px;
+}
+
+.textList{
+  margin-bottom: 5px;
+  margin-left: 25px;
+  width: 100%;
+}
+
+.list-box{
+  position: relative;
+  margin-left: 10px;
+}
+
+.button{
+  margin-left: 15px;
+}
+
+.list-item-check{
+  position: absolute;
+}
+
+.done{
+  text-decoration: line-through;
+}
+
+.todo-area {
+  background-color: rgb(128,128,128,0.3);
+  width: 400px;
+  min-height: 200px;
+  padding: 8px;
+  margin: auto;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.title {
+  padding-top: 10px;
+  text-align: center;
+  margin-top: 0;
+  font-weight: bold;
+  color: #999;
+}
+
+.todo-status {
+  margin-top: 58px;
+  text-align: center;
+  font-weight: bold;
+}
+
